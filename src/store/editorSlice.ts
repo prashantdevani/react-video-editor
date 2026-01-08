@@ -155,6 +155,7 @@ const initialState: EditorState = {
   selectedLayerId: null,
   currentTime: 0,
   isPlaying: true,
+  playbackSpeed: 1,
   duration: 40,
 };
 
@@ -215,6 +216,9 @@ const editorSlice = createSlice({
     setDuration: (state, action: PayloadAction<number>) => {
       state.duration = action.payload;
     },
+    setPlaybackSpeed: (state, action: PayloadAction<number>) => {
+      state.playbackSpeed = action.payload;
+    },
     loadState: (_state, action: PayloadAction<EditorState>) => {
       return {
         ...action.payload,
@@ -233,6 +237,7 @@ export const {
   setCurrentTime,
   setIsPlaying,
   setDuration,
+  setPlaybackSpeed,
   setLoading,
   setStageSize,
   loadState,

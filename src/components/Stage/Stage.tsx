@@ -10,9 +10,14 @@ import { getAspectRatio } from "../../utils/geometry";
 
 export const Stage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { layers, stage, currentTime, selectedLayerId } = useAppSelector(
-    (state) => state.editor
-  );
+  const {
+    layers,
+    stage,
+    currentTime,
+    selectedLayerId,
+    isPlaying,
+    playbackSpeed,
+  } = useAppSelector((state) => state.editor);
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
 
@@ -124,7 +129,12 @@ export const Stage: React.FC = () => {
             }}
           >
             {layer.type === "video" && (
-              <VideoLayer layer={layer} currentTime={currentTime} />
+              <VideoLayer
+                layer={layer}
+                currentTime={currentTime}
+                isPlaying={isPlaying}
+                playbackSpeed={playbackSpeed}
+              />
             )}
             {layer.type === "image" && <ImageLayer layer={layer} />}
             {layer.type === "text" && <TextLayer layer={layer} />}

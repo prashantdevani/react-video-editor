@@ -98,5 +98,6 @@ export interface EditorState {
   selectedLayerId: string | null;
   currentTime: number;
   isPlaying: boolean;
+  playbackSpeed: number;
   duration: number;
 }

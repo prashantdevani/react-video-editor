@@ -14,14 +14,12 @@ This project is created for the purpose of learning about video editing using Re
 - tailwindcss
 - @xzdarcy/react-timeline-editor
 
-
 Users can easily create videos using this tool and preview the results in real time. The editor also allows exporting and importing the current video editing state in JSON format.
 At present, the tool supports three types of layers. See the **Features** section for more details:
 
-* Video
-* Image
-* Text
-
+- Video
+- Image
+- Text
 
 ## Installation
 
@@ -257,21 +255,19 @@ This is a sample config. The user can use this documentation to understand how t
   ],
   "selectedLayerId": null,
   "currentTime": 0,
+  "playbackSpeed": 1,
   "isPlaying": true,
   "duration": 40
 }
 ```
 
-## 🚀 Demo URL  
+## 🚀 Demo URL
 
 [👉 Open Video Editor Demo](https://videoeditor-alpha.labstack.site/)
 
 ## 🎥 Demo Video
 
 https://videoeditor-alpha.labstack.site/demo-video.mp4
-
-
-
 
 ## Known Issues
 
