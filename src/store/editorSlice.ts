@@ -1,0 +1,241 @@
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { EditorState, Layer, AspectRatio } from "../types";
+
+const initialState: EditorState = {
+  stage: {
+    aspectRatio: "16:9",
+  },
+  isLoading: false,
+  layers: [
+    {
+      id: "sample-video-1",
+      type: "video",
+      name: "Big Buck Bunny",
+      zIndex: 1,
+      timeline: {
+        start: 5,
+        end: 33.5,
+      },
+      geometry: {
+        x: 0,
+        y: 0,
+        width: 1,
+        height: 1,
+      },
+      options: {
+        videoUrl: "/Big_Buck_Bunny_60fps_480P.mp4",
+        mute: false,
+        volume: 1,
+        speed: 1,
+      },
+    },
+    {
+      id: "sample-image-1",
+      type: "image",
+      name: "React Player Logo",
+      zIndex: 2,
+      timeline: {
+        start: 0.5,
+        end: 5,
+      },
+      geometry: {
+        x: 0.4089171092925483,
+        y: 0.11377337598425197,
+        width: 0.2,
+        height: 0.2,
+      },
+      options: {
+        imageUrl: "react-icon.svg",
+      },
+    },
+    {
+      id: "sample-text-1",
+      type: "text",
+      name: "Title",
+      zIndex: 3,
+      timeline: {
+        start: 1,
+        end: 5,
+      },
+      geometry: {
+        x: 0.38412034827262703,
+        y: 0.3539325842696629,
+        width: 0.299650246062182,
+        height: 0.12172284644194757,
+      },
+      options: {
+        text: "React Video Player",
+        styles: {
+          color: "#000000",
+          opacity: 1,
+          fontSize: 30,
+          rotation: 0,
+          border: {
+            color: "#000000",
+            width: 1,
+            style: "solid",
+          },
+          background: {
+            color: "#FFFFFF",
+            opacity: 0,
+          },
+          shadow: {
+            color: "#000000",
+            opacity: 0.5,
+            blur: 4,
+            spread: 0,
+            x: 2,
+            y: 2,
+          },
+        },
+      },
+    },
+    {
+      id: "062eba68-05b3-424c-bd10-a97f9f2f3928",
+      type: "text",
+      name: "Description ",
+      zIndex: 4,
+      timeline: {
+        start: 2,
+        end: 5,
+      },
+      geometry: {
+        x: 0.25905656961337786,
+        y: 0.5419446395131086,
+        width: 0.53,
+        height: 0.15,
+      },
+      options: {
+        text: "Video will be playing in few seconds",
+        styles: {
+          color: "#ffffff",
+          opacity: 1,
+          fontSize: 30,
+          rotation: 0,
+          border: {
+            color: "#000000",
+            width: 0,
+            style: "solid",
+          },
+          background: {
+            color: "#000000",
+            opacity: 0,
+          },
+          shadow: {
+            color: "#000000",
+            opacity: 0,
+            blur: 0,
+            spread: 0,
+            x: 0,
+            y: 0,
+          },
+        },
+      },
+    },
+    {
+      id: "1797e727-203c-4420-9865-894084180d75",
+      type: "image",
+      name: "Video logo",
+      zIndex: 5,
+      timeline: {
+        start: 10,
+        end: 20,
+      },
+      geometry: {
+        x: 0.8662433606117753,
+        y: 0.019269808070866142,
+        width: 0.10740670253810619,
+        height: 0.15354330708661418,
+      },
+      options: {
+        imageUrl: "/vite.svg",
+      },
+    },
+  ],
+  selectedLayerId: null,
+  currentTime: 0,
+  isPlaying: true,
+  duration: 40,
+};
+
+const editorSlice = createSlice({
+  name: "editor",
+  initialState,
+  reducers: {
+    setAspectRatio: (state, action: PayloadAction<AspectRatio>) => {
+      state.stage.aspectRatio = action.payload;
+    },
+    addLayer: (state, action: PayloadAction<Layer>) => {
+      state.layers.push(action.payload);
+      state.duration = Math.max(
+        state.duration,
+        ...state.layers.map((l) => l.timeline.end)
+      );
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
+    setStageSize: (state, action: PayloadAction<AspectRatio>) => {
+      state.stage.aspectRatio = action.payload;
+    },
+    removeLayer: (state, action: PayloadAction<string>) => {
+      state.layers = state.layers.filter((l) => l.id !== action.payload);
+      const maxLayerTime = Math.max(
+        0,
+        ...state.layers.map((l) => l.timeline.end)
+      );
+      state.duration = Math.max(30, maxLayerTime);
+      if (state.selectedLayerId === action.payload) {
+        state.selectedLayerId = null;
+      }
+    },
+    updateLayer: (
+      state,
+      action: PayloadAction<{ id: string; changes: Partial<Layer> }>
+    ) => {
+      const layer = state.layers.find((l) => l.id === action.payload.id);
+      if (layer) {
+        Object.assign(layer, action.payload.changes);
+        const maxLayerTime = Math.max(
+          0,
+          ...state.layers.map((l) => l.timeline.end)
+        );
+        state.duration = Math.max(30, maxLayerTime);
+      }
+    },
+    setSelectedLayer: (state, action: PayloadAction<string | null>) => {
+      state.selectedLayerId = action.payload;
+    },
+    setCurrentTime: (state, action: PayloadAction<number>) => {
+      state.currentTime = action.payload;
+    },
+    setIsPlaying: (state, action: PayloadAction<boolean>) => {
+      state.isPlaying = action.payload;
+    },
+    setDuration: (state, action: PayloadAction<number>) => {
+      state.duration = action.payload;
+    },
+    loadState: (_state, action: PayloadAction<EditorState>) => {
+      return {
+        ...action.payload,
+        isLoading: false,
+      };
+    },
+  },
+});
+
+export const {
+  setAspectRatio,
+  addLayer,
+  removeLayer,
+  updateLayer,
+  setSelectedLayer,
+  setCurrentTime,
+  setIsPlaying,
+  setDuration,
+  setLoading,
+  setStageSize,
+  loadState,
+} = editorSlice.actions;
+
+export default editorSlice.reducer;
