@@ -14,12 +14,14 @@ This project is created for the purpose of learning about video editing using Re
 - tailwindcss
 - @xzdarcy/react-timeline-editor
 
-User can simply create video in this tool and play to see the result. User can also export and import current video editing status in json format.
-Currently there are 3 types of layers supported. Check feature section for more details:
 
-- video
-- image
-- text
+Users can easily create videos using this tool and preview the results in real time. The editor also allows exporting and importing the current video editing state in JSON format.
+At present, the tool supports three types of layers. See the **Features** section for more details:
+
+* Video
+* Image
+* Text
+
 
 ## Installation
 
