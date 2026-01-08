@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 
 echo "Generating env-config.js file..."
 

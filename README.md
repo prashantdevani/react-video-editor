@@ -260,6 +260,19 @@ This is a sample config. The user can use this documentation to understand how t
 }
 ```
 
+## 🚀 Demo URL  
+
+[👉 Open Video Editor Demo](https://videoeditor-alpha.labstack.site/)
+
+## 🎥 Demo Video
+
+<video width="800" controls>
+  <source src="./public/demo-video.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+
+
 ## Known Issues
 
 - Performance for high resolution video is not good. It can be improved by using web worker.
