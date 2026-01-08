@@ -266,10 +266,8 @@ This is a sample config. The user can use this documentation to understand how t
 
 ## 🎥 Demo Video
 
-<video width="800" controls>
-  <source src="./public/demo-video.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+https://videoeditor-alpha.labstack.site/demo-video.mp4
+
 
 
 
